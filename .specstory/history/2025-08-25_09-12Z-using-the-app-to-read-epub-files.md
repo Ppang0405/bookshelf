@@ -857,7 +857,58 @@ _**User**_
 
 _**Assistant**_
 
-Let me first test that the Go code still compiles: Great! Now let's rebuild the Android 
+Let me first test that the Go code still compiles: Great! Now let's rebuild the Android AAR: Now let's also rebuild the iOS XCFramework to make sure it's consistent: Let's check what files we have now: Perfect! Both the Android AAR and iOS XCFramework have been successfully created. Let me also check the sizes to confirm they're substantial: Excellent! Both files have been successfully created:
+
+## Summary
+
+✅ **Successfully created mobile frameworks:**
+
+1. **Android AAR**: `epubreader.aar` (11MB)
+   - Ready to be imported into Android Studio projects
+   - Contains the Go EPUB reader compiled for Android
+
+2. **iOS XCFramework**: `EpubReader.xcframework` (26MB total)
+   - Supports both device (arm64) and simulator (arm64 + x86_64)
+   - Ready to be imported into Xcode projects
+
+## How to use them:
+
+### For Android:
+1. Copy `epubreader.aar` to your Android project's `libs` folder
+2. Add to your `build.gradle`: `implementation files('libs/epubreader.aar')`
+3. Use the Java API like: `Epubreader.openEpubFromBytes(epubData)`
+
+### For iOS:
+1. Drag `EpubReader.xcframework` into your Xcode project
+2. Add it to "Frameworks, Libraries, and Embedded Content"
+3. Import in Swift: `import EpubReader`
+4. Use the API like: `EpubreaderOpenEpubFromBytes(epubData)`
+
+## Available functions in both platforms:
+- `OpenEpubFromBytes(data)` - Load EPUB from byte array
+- `GetBookInfo()` - Get metadata as JSON
+- `GetTableOfContents()` - Get TOC as JSON
+- `GetChapterHTMLByIndex(index)` - Get chapter HTML
+- `GetNextChapterHTMLByIndex(current)` - Navigate forward
+- `GetPrevChapterHTMLByIndex(current)` - Navigate backward
+- `HasNextChapterByIndex(current)` - Check if next chapter exists
+- `HasPrevChapterByIndex(current)` - Check if previous chapter exists
+- `GetReadingProgress(current)` - Get reading progress percentage
+- `CloseBook()` - Free memory
+
+The Java naming conflict has been resolved by renaming `EpubReader` struct to `Reader`, which prevents the filename/classname mismatch in Java.
+
+---
+
+_**User**_
+
+help me commit all changes and push code to github
+
+---
+
+_**Assistant**_
+
+I'll help you commit all the changes and push the code to GitHub. Let me first check the current git status: Good! Now let me add all the changes and commit them: Let me check what files are staged: Now let me commit all these changes with a descriptive commit message: Great! The commit was successful. Now let's push the changes to GitHub: 
 
 ---
 
