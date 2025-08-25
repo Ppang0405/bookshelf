@@ -1,0 +1,8 @@
+framework module "EpubReader" {
+	header "ref.h"
+    header "Epubreader.objc.h"
+    header "Universe.objc.h"
+    header "EpubReader.h"
+
+    export *
+}
