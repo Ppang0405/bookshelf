@@ -10,7 +10,11 @@
        v-if="mode === 'delete'"
        small
       >mdi-close</v-icon>
-      {{ getAlias(file.MimeType) }}
+      <v-icon
+       v-else-if="mode === 'read' && isEpub()"
+       small
+      >mdi-book-open</v-icon>
+      {{ mode === 'read' && isEpub() ? 'Read' : getAlias(file.MimeType) }}
     </v-btn>
 
     <v-dialog
@@ -87,9 +91,17 @@
           fileLink.download = this.book.Title + '.' + alias;
           fileLink.click();
           fileLink.remove();
+        } else if (this.mode === 'read' && this.isEpub()) {
+          // Navigate to EPUB reader
+          const alias = this.getAlias(this.file.MimeType);
+          this.$router.push(`/book/${this.file.BookID}/read/${alias}`);
         } else if (this.mode === 'delete') {
           this.deleteDialog = true;
         }
+      },
+      isEpub(): boolean {
+        const baseMime = getBaseMime(this.file.MimeType);
+        return baseMime === 'application/epub+zip';
       },
       async deleteFile() {
         this.deleteDialog = false;

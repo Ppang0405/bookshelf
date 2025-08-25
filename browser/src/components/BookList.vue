@@ -28,13 +28,23 @@
       </v-list-item>
 
       <v-card-actions>
-        <FileIcon
-         v-for="file in book.Files"
-         v-bind:key="file.ID"
-         :book="book"
-         :file="file"
-         mode="download"
-        />
+        <template v-for="file in book.Files">
+          <!-- Show Read button for EPUB files -->
+          <FileIcon
+           v-if="isEpubFile(file)"
+           v-bind:key="file.ID + '-read'"
+           :book="book"
+           :file="file"
+           mode="read"
+          />
+          <!-- Always show Download button -->
+          <FileIcon
+           v-bind:key="file.ID + '-download'"
+           :book="book"
+           :file="file"
+           mode="download"
+          />
+        </template>
       </v-card-actions>
     </v-card>
   </div>
@@ -79,6 +89,9 @@
           const text = [e.Title, e.Author, e.Publisher].join('  ').toLowerCase();
           return text.indexOf(query) > -1;
         });
+      },
+      isEpubFile(file: Model.BookFile): boolean {
+        return file.MimeType === 'application/epub+zip';
       },
     },
 
